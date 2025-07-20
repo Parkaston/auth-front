@@ -12,36 +12,64 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar position="static">
-      <Toolbar>
-    <Typography
-    variant="h6"
-    component={Link}
-    to="/"
-    sx={{
-    flexGrow: 1,
-    textDecoration: 'none',
-    color: 'inherit'
-    }}
->
-  Auth App
-</Typography>
+    <AppBar
+      position="static"
+      sx={{
+        backgroundColor: "#212121", // gris oscuro moderno
+        borderBottom: "1px solid #444", // línea inferior sutil
+        boxShadow: "none",
+      }}
+    >
+      <Toolbar sx={{ justifyContent: "space-between" }}>
+        <Typography
+          variant="h6"
+          component={Link}
+          to="/"
+          sx={{
+            textDecoration: 'none',
+            color: '#ffffff',
+            fontWeight: 'bold',
+            letterSpacing: '0.5px',
+          }}
+        >
+          Auth App
+        </Typography>
+
         <Box>
           {token ? (
             <>
-              <Button color="inherit" component={Link} to="/profile">
+              <Button
+                color="inherit"
+                component={Link}
+                to="/profile"
+                sx={{ textTransform: 'none' }}
+              >
                 Perfil
               </Button>
-              <Button color="inherit" onClick={handleLogout}>
+              <Button
+                color="inherit"
+                onClick={handleLogout}
+                sx={{ textTransform: 'none' }}
+              >
                 Logout
               </Button>
             </>
           ) : (
             <>
-              <Button color="inherit" component={Link} to="/login">
+              <Button
+                color="inherit"
+                component={Link}
+                to="/login"
+                sx={{ textTransform: 'none' }}
+              >
                 Login
               </Button>
-              <Button color="inherit" component={Link} to="/register">
+              <Button
+                color="inherit"
+                component={Link}
+                to="/register"
+                sx={{ textTransform: 'none' }}
+              >
                 Register
               </Button>
             </>
@@ -51,6 +79,5 @@ const Navbar = () => {
     </AppBar>
   );
 };
+
 export default Navbar;
-//Usamos Material UI para crear una barra de navegacion sencilla con enlaces a las diferentes
-//páginas de la aplicación.
