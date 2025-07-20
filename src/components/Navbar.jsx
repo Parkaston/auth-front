@@ -15,8 +15,8 @@ const Navbar = () => {
     <AppBar
       position="static"
       sx={{
-        backgroundColor: "#212121", // gris oscuro moderno
-        borderBottom: "1px solid #444", // línea inferior sutil
+        backgroundColor: "#212121", 
+        borderBottom: "1px solid #444", 
         boxShadow: "none",
       }}
     >
