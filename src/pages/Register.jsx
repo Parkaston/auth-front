@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
-import { TextField, Button, Typography, Container, Box, Paper } from '@mui/material';
+import { TextField, Button, Typography, Box, Paper } from '@mui/material';
 import { API_BASE_URL } from '../config';
 import PageWrapper from '../components/PageWrapper';
 
@@ -8,35 +8,41 @@ export default function Register() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-const navigate = useNavigate();
-const handleRegister = async () => {
-  try {
-    const response = await fetch(`${API_BASE_URL}/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username, email, password }),
-    });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-    const data = await response.json(); // Parseamos el body
+  const navigate = useNavigate();
 
-    if (!response.ok) {
-      // Mostramos el mensaje devuelto por el servidor si hay error
-      throw new Error(data.message || "Error desconocido");
+  const handleRegister = async () => {
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Error desconocido");
+      }
+
+      navigate("/login");
+    } catch (error) {
+      console.error("Error al registrar:", error.message);
+      setError(error.message);
+    } finally {
+      setLoading(false);
     }
-
-    alert("Registro exitoso");
-    navigate("/login");
-  } catch (error) {
-    alert(`Registro fallido: ${error.message}`);
-    console.error("Error al registrar:", error);
-  }
-};
-
+  };
 
   return (
-         <PageWrapper>
+    <PageWrapper>
       <Box
         sx={{
           minHeight: '90vh',
@@ -50,6 +56,7 @@ const handleRegister = async () => {
           <Typography variant="h4" gutterBottom textAlign="center">
             Registro
           </Typography>
+
           <TextField
             label="Nombre de usuario"
             fullWidth
@@ -72,15 +79,23 @@ const handleRegister = async () => {
             value={password}
             onChange={e => setPassword(e.target.value)}
           />
+
           <Button
             variant="contained"
             color="primary"
             fullWidth
             onClick={handleRegister}
             sx={{ mt: 2 }}
+            disabled={loading}
           >
-            Registrarse
+            {loading ? "Cargando..." : "Registrarse"}
           </Button>
+
+          {error && (
+            <Typography variant="body2" color="error" mt={2}>
+              {error}
+            </Typography>
+          )}
         </Paper>
       </Box>
     </PageWrapper>
